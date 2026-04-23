@@ -1,0 +1,972 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Plan Sport 8 Semaines — Back to Power</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,700;1,300&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0f;
+    --surface: #111118;
+    --card: #16161f;
+    --border: #22222e;
+    --accent: #e8ff3c;
+    --accent2: #ff5c35;
+    --accent3: #3cffb4;
+    --text: #f0f0f5;
+    --muted: #6b6b7e;
+    --phase1: #3cffb4;
+    --phase2: #ff5c35;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-serif; font-weight: 300; min-height: 100vh; overflow-x: hidden; }
+  body::before { content: ''; position: fixed; inset: 0; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E"); pointer-events: none; z-index: 0; opacity: 0.4; }
+  .wrapper { position: relative; z-index: 1; max-width: 1100px; margin: 0 auto; padding: 0 24px 80px; }
+
+  header { padding: 60px 0 40px; border-bottom: 1px solid var(--border); margin-bottom: 48px; position: relative; overflow: hidden; }
+  header::after { content: 'REBUILD'; position: absolute; right: -20px; top: 50%; transform: translateY(-50%); font-family: 'Bebas Neue', sans-serif; font-size: 180px; color: var(--accent); opacity: 0.04; letter-spacing: 0.02em; pointer-events: none; white-space: nowrap; }
+  .eyebrow { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--accent); letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 12px; }
+  h1 { font-family: 'Bebas Neue', sans-serif; font-size: clamp(52px, 8vw, 96px); line-height: 0.92; letter-spacing: 0.01em; color: var(--text); }
+  h1 span { color: var(--accent); }
+  .header-meta { display: flex; gap: 10px; margin-top: 28px; flex-wrap: wrap; }
+  .meta-chip { display: flex; align-items: center; gap: 8px; background: var(--surface); border: 1px solid var(--border); border-radius: 40px; padding: 6px 16px; font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--muted); }
+  .meta-chip .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); }
+  .meta-chip.warn .dot { background: var(--accent2); }
+  .meta-chip.green .dot { background: var(--accent3); }
+
+  .profile-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 48px; }
+  @media (max-width: 700px) { .profile-grid { grid-template-columns: 1fr 1fr; } }
+  .stat-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 20px 24px; transition: border-color 0.2s; }
+  .stat-card:hover { border-color: var(--accent); }
+  .stat-card .label { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--muted); letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 6px; }
+  .stat-card .value { font-family: 'Bebas Neue', sans-serif; font-size: 32px; letter-spacing: 0.02em; color: var(--text); }
+  .stat-card .value.accent { color: var(--accent); }
+  .stat-card .value.warn { color: var(--accent2); }
+  .stat-card .value.green { color: var(--accent3); }
+
+  /* MATERIEL BADGE */
+  .materiel-band { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 40px; padding: 16px 20px; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; align-items: center; }
+  .materiel-band .mat-label { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--muted); letter-spacing: 0.15em; text-transform: uppercase; margin-right: 8px; }
+  .mat-item { display: flex; align-items: center; gap: 6px; background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 6px 14px; font-size: 13px; color: var(--text); }
+  .mat-item .mi { font-size: 16px; }
+
+  .legend { display: flex; gap: 20px; flex-wrap: wrap; margin-bottom: 40px; align-items: center; }
+  .legend-item { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--muted); }
+  .legend-dot { width: 10px; height: 10px; border-radius: 2px; }
+
+  .phase-header { display: flex; align-items: flex-end; gap: 16px; margin-bottom: 24px; margin-top: 56px; padding-bottom: 16px; border-bottom: 2px solid var(--border); }
+  .phase-number { font-family: 'Bebas Neue', sans-serif; font-size: 72px; line-height: 1; opacity: 0.2; }
+  .phase-number.p1 { color: var(--phase1); }
+  .phase-number.p2 { color: var(--phase2); }
+  .phase-info h2 { font-family: 'Bebas Neue', sans-serif; font-size: 28px; letter-spacing: 0.05em; }
+  .phase-info h2.p1 { color: var(--phase1); }
+  .phase-info h2.p2 { color: var(--phase2); }
+  .phase-info p { font-size: 13px; color: var(--muted); margin-top: 4px; max-width: 600px; line-height: 1.6; }
+
+  .week-block { margin-bottom: 12px; border: 1px solid var(--border); border-radius: 14px; overflow: hidden; transition: border-color 0.25s; animation: fadeUp 0.4s ease both; }
+  .week-block:hover { border-color: #2e2e3e; }
+  .week-block.open { border-color: var(--accent); }
+  .week-block.open .week-toggle { background: #14140d; }
+  .week-toggle { width: 100%; background: var(--card); border: none; cursor: pointer; padding: 20px 28px; display: flex; align-items: center; gap: 20px; transition: background 0.2s; text-align: left; }
+  .week-toggle:hover { background: #18181f; }
+  .week-num { font-family: 'Bebas Neue', sans-serif; font-size: 42px; line-height: 1; min-width: 52px; }
+  .week-num.p1 { color: var(--phase1); }
+  .week-num.p2 { color: var(--phase2); }
+  .week-meta { flex: 1; }
+  .week-title { font-family: 'DM Sans', sans-serif; font-weight: 700; font-size: 16px; color: var(--text); margin-bottom: 2px; }
+  .week-subtitle { font-size: 12px; color: var(--muted); font-family: 'JetBrains Mono', monospace; letter-spacing: 0.05em; }
+  .week-dots { display: flex; gap: 5px; }
+  .day-dot { width: 10px; height: 10px; border-radius: 2px; border: 1px solid var(--border); }
+  .day-dot.sport { background: var(--phase1); border-color: var(--phase1); }
+  .day-dot.sport.intense { background: var(--phase2); border-color: var(--phase2); }
+  .day-dot.rest { background: transparent; }
+  .chevron { width: 20px; height: 20px; border: 1px solid var(--border); border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: transform 0.3s, border-color 0.2s; flex-shrink: 0; }
+  .chevron svg { transition: transform 0.3s; }
+  .week-block.open .chevron { border-color: var(--accent); }
+  .week-block.open .chevron svg { transform: rotate(180deg); }
+  .week-content { display: none; padding: 0 28px 28px; background: var(--card); }
+  .week-block.open .week-content { display: block; }
+
+  .days-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 10px; margin-top: 16px; }
+  @media (max-width: 800px) { .days-grid { grid-template-columns: repeat(4, 1fr); } }
+  @media (max-width: 500px) { .days-grid { grid-template-columns: repeat(2, 1fr); } }
+
+  .day-card { border-radius: 10px; padding: 14px 12px; border: 1px solid var(--border); background: var(--surface); min-height: 165px; transition: transform 0.15s, border-color 0.2s; position: relative; overflow: hidden; }
+  .day-card:hover { transform: translateY(-2px); }
+  .day-card.active-day { border-color: var(--phase1); }
+  .day-card.active-day.intense { border-color: var(--phase2); }
+  .day-card.rest-day { opacity: 0.45; }
+  .day-card.rest-day:hover { opacity: 0.75; }
+  .day-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; }
+  .day-card.active-day::before { background: var(--phase1); }
+  .day-card.active-day.intense::before { background: var(--phase2); }
+  .day-card.rest-day::before { background: var(--border); }
+  .day-name { font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; }
+  .day-type { font-family: 'Bebas Neue', sans-serif; font-size: 15px; letter-spacing: 0.05em; margin-bottom: 10px; }
+  .day-type.cardio { color: var(--phase1); }
+  .day-type.force { color: var(--accent); }
+  .day-type.hiit { color: var(--accent2); }
+  .day-type.mix { color: #a78bff; }
+  .day-type.rest { color: var(--muted); }
+  .day-details { font-size: 11px; color: var(--muted); line-height: 1.75; }
+  .day-details strong { color: var(--text); font-weight: 500; display: block; font-size: 11px; margin-top: 4px; }
+  .duration-badge { position: absolute; bottom: 10px; right: 10px; font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--muted); background: var(--bg); border: 1px solid var(--border); border-radius: 20px; padding: 2px 8px; }
+
+  .week-note { margin-top: 20px; background: var(--surface); border-left: 3px solid var(--accent); border-radius: 0 8px 8px 0; padding: 14px 18px; font-size: 13px; color: var(--muted); line-height: 1.7; }
+  .week-note strong { color: var(--accent); }
+
+  .section-title { font-family: 'Bebas Neue', sans-serif; font-size: 36px; letter-spacing: 0.05em; color: var(--text); margin-bottom: 4px; margin-top: 64px; }
+  .section-sub { font-size: 13px; color: var(--muted); margin-bottom: 24px; }
+
+  .nutrition-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 600px) { .nutrition-grid { grid-template-columns: 1fr; } }
+  .nutri-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 22px 24px; }
+  .nutri-card h3 { font-family: 'DM Sans', sans-serif; font-weight: 700; font-size: 14px; color: var(--text); margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+  .nutri-card h3 span { background: var(--bg); border: 1px solid var(--border); border-radius: 6px; padding: 2px 8px; font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--accent); }
+  .nutri-list { list-style: none; font-size: 13px; color: var(--muted); line-height: 2; }
+  .nutri-list li::before { content: '-> '; color: var(--accent); font-weight: 700; }
+
+  .progress-bars { display: flex; flex-direction: column; gap: 14px; margin-top: 20px; }
+  .prog-row { display: flex; align-items: center; gap: 16px; }
+  .prog-label { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--muted); width: 200px; flex-shrink: 0; letter-spacing: 0.03em; }
+  .prog-bar-bg { flex: 1; height: 6px; background: var(--border); border-radius: 3px; overflow: hidden; }
+  .prog-bar-fill { height: 100%; border-radius: 3px; background: var(--accent); width: 0%; transition: width 1.1s cubic-bezier(0.4,0,0.2,1); }
+  .prog-bar-fill.orange { background: var(--accent2); }
+  .prog-bar-fill.green { background: var(--accent3); }
+  .prog-val { font-family: 'Bebas Neue', sans-serif; font-size: 18px; color: var(--text); min-width: 60px; text-align: right; }
+
+  .week-check-grid { display: grid; grid-template-columns: repeat(8, 1fr); gap: 8px; margin-top: 24px; }
+  @media (max-width: 600px) { .week-check-grid { grid-template-columns: repeat(4, 1fr); } }
+  .week-check-btn { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 14px 8px; text-align: center; cursor: pointer; transition: all 0.2s; color: var(--muted); font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.05em; }
+  .week-check-btn .wc-num { font-family: 'Bebas Neue', sans-serif; font-size: 28px; display: block; color: var(--text); }
+  .week-check-btn.done { background: rgba(232,255,60,0.07); border-color: var(--accent); color: var(--accent); }
+  .week-check-btn.done .wc-num { color: var(--accent); }
+  .completion-display { text-align: center; margin-top: 24px; font-family: 'Bebas Neue', sans-serif; font-size: 48px; color: var(--accent); }
+  .completion-display span { font-family: 'DM Sans', sans-serif; font-size: 13px; color: var(--muted); font-weight: 300; display: block; }
+
+  /* FC TARGET HIGHLIGHT */
+  .fc-target-card { background: linear-gradient(135deg, rgba(60,255,180,0.06), rgba(60,255,180,0.02)); border: 1px solid rgba(60,255,180,0.25); border-radius: 14px; padding: 24px 28px; margin-bottom: 48px; display: flex; align-items: center; gap: 28px; flex-wrap: wrap; }
+  .fc-big { font-family: 'Bebas Neue', sans-serif; font-size: 64px; line-height: 1; color: var(--accent3); }
+  .fc-sub { font-size: 13px; color: var(--muted); line-height: 1.8; }
+  .fc-sub strong { color: var(--text); display: block; font-size: 15px; margin-bottom: 4px; }
+
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+</style>
+</head>
+<body>
+<div class="wrapper">
+
+  <!-- HEADER -->
+  <header>
+    <div class="eyebrow">// Plan personnalise · alteres 10kg + barre de traction</div>
+    <h1>8 SEMAINES<br><span>BACK TO POWER</span></h1>
+    <div class="header-meta">
+      <div class="meta-chip green"><span class="dot"></span>73 KG · 23 ANS</div>
+      <div class="meta-chip green"><span class="dot"></span>BASE MUSCU SOLIDE</div>
+      <div class="meta-chip"><span class="dot"></span>BILAN MEDICAL : OK</div>
+      <div class="meta-chip warn"><span class="dot"></span>VAPOTEUR · ALCOOL</div>
+      <div class="meta-chip"><span class="dot"></span>CARDIO : FOOTING</div>
+      <div class="meta-chip"><span class="dot"></span>1H MAX / SEANCE</div>
+    </div>
+  </header>
+
+  <!-- STATS -->
+  <div class="profile-grid">
+    <div class="stat-card"><div class="label">Poids cible</div><div class="value">73-76 <small style="font-size:16px;color:var(--muted)">kg</small></div></div>
+    <div class="stat-card"><div class="label">FC max estimee</div><div class="value accent">197 <small style="font-size:16px;color:var(--muted)">bpm</small></div></div>
+    <div class="stat-card"><div class="label">Zone cardio cible</div><div class="value">130-170 <small style="font-size:16px;color:var(--muted)">bpm</small></div></div>
+    <div class="stat-card"><div class="label">Seances / semaine</div><div class="value warn">4-5</div></div>
+    <div class="stat-card"><div class="label">Duree max seance</div><div class="value">60 <small style="font-size:16px;color:var(--muted)">min</small></div></div>
+    <div class="stat-card"><div class="label">Objectif FC repos</div><div class="value green">-15 <small style="font-size:16px;color:var(--muted)">bpm</small></div></div>
+  </div>
+
+  <!-- FC TARGET -->
+  <div class="fc-target-card">
+    <div class="fc-big">-15<br><small style="font-size:28px">BPM</small></div>
+    <div class="fc-sub">
+      <strong>Objectif principal : baisser la FC de repos de 15 bpm</strong>
+      C'est ambitieux sur 8 semaines mais atteignable avec ta base musculaire existante.<br>
+      Le levier n°1 : <strong style="color:var(--accent3);display:inline">le volume cardio progressif</strong> — 3 footings/semaine minimum, en zone 65-75% FC max.<br>
+      Levier n°2 : <strong style="color:var(--accent);display:inline">reduire l'alcool les semaines 4, 6 et 8</strong> — l'alcool eleve structurellement la FC de repos.<br>
+      Mesure ta FC au reveil chaque matin, a jeun, allonge, pendant 60 secondes. Note-la.
+    </div>
+  </div>
+
+  <!-- MATERIEL -->
+  <div class="materiel-band">
+    <span class="mat-label">Materiel :</span>
+    <div class="mat-item"><span class="mi">🏋️</span>Alteres 2x10 kg</div>
+    <div class="mat-item"><span class="mi">🔩</span>Barre de traction</div>
+    <div class="mat-item"><span class="mi">🏃</span>Footing (cardio)</div>
+    <div class="mat-item"><span class="mi">🧘</span>Sol (poids du corps)</div>
+    <div class="mat-item" style="border-color:rgba(255,92,53,0.3);color:var(--accent2);"><span class="mi">🚫</span>Pas de salle / machines</div>
+  </div>
+
+  <!-- LEGEND -->
+  <div class="legend">
+    <span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted);letter-spacing:0.1em;">TYPES :</span>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--phase1)"></div>Footing / Cardio</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--accent)"></div>Force halteres + traction</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--accent2)"></div>HIIT / Circuit intense</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#a78bff"></div>Mixte</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--border)"></div>Repos actif</div>
+  </div>
+
+  <!-- PHASE 1 -->
+  <div class="phase-header">
+    <div class="phase-number p1">01</div>
+    <div class="phase-info">
+      <h2 class="p1">PHASE RECONSTRUCTION — Semaines 1 a 4</h2>
+      <p>Ta base musculaire (pompes, abdos, gainage) est deja la. L'objectif ici n'est pas de "reapprendre" — c'est de relancer le systeme cardiovasculaire et de retrouver la connexion neuromusculaire sous charge. Les volumes demarrent hauts, l'intensite cardio monte progressivement.</p>
+    </div>
+  </div>
+
+  <!-- S1 -->
+  <div class="week-block" id="w1">
+    <button class="week-toggle" onclick="toggleWeek('w1')">
+      <span class="week-num p1">01</span>
+      <div class="week-meta">
+        <div class="week-title">Reactivation — base deja la</div>
+        <div class="week-subtitle">RELANCE CARDIO · FORCE HALTERES · VOLUME ELEVE D'EMBLEE</div>
+      </div>
+      <div class="week-dots">
+        <div class="day-dot sport"></div><div class="day-dot rest"></div><div class="day-dot sport"></div>
+        <div class="day-dot rest"></div><div class="day-dot sport"></div><div class="day-dot sport"></div><div class="day-dot rest"></div>
+      </div>
+      <div class="chevron"><svg width="10" height="6" viewBox="0 0 10 6" fill="none"><path d="M1 1L5 5L9 1" stroke="#6b6b7e" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+    </button>
+    <div class="week-content">
+      <div class="days-grid">
+        <div class="day-card active-day">
+          <div class="day-name">LUNDI</div><div class="day-type cardio">FOOTING</div>
+          <div class="day-details">
+            Endurance fondamentale<br>
+            <strong>5 min marche + 25 min footing lent + 5 min marche</strong>
+            FC cible : 135-150 bpm<br>
+            Rythme conversationnel obligatoire
+          </div>
+          <div class="duration-badge">35 min</div>
+        </div>
+        <div class="day-card rest-day">
+          <div class="day-name">MARDI</div><div class="day-type rest">REPOS</div>
+          <div class="day-details">Marche 20 min<br>Etirements ischio + mollets</div>
+        </div>
+        <div class="day-card active-day">
+          <div class="day-name">MERCREDI</div><div class="day-type force">FORCE HAUT</div>
+          <div class="day-details">
+            Halteres 10kg + barre traction<br>
+            <strong>4x12 Pompes · 4x8 Tractions · 4x10 Dev. epaules haltere · 4x12 Curl biceps</strong>
+            4x15 Triceps (haltere prise neutre)<br>
+            Repos 60s · Gainage 3x60s fin
+          </div>
+          <div class="duration-badge">55 min</div>
+        </div>
+        <div class="day-card rest-day">
+          <div class="day-name">JEUDI</div><div class="day-type rest">REPOS</div>
+          <div class="day-details">Marche ou mobilite<br>Etirements epaules + dos</div>
+        </div>
+        <div class="day-card active-day">
+          <div class="day-name">VENDREDI</div><div class="day-type force">FORCE BAS + CORE</div>
+          <div class="day-details">
+            Halteres 10kg<br>
+            <strong>4x15 Squats halteres · 4x12 Fentes marchees · 4x12 Hip thrust · 4x15 Mollets</strong>
+            Abdos : 3x20 crunch · 3x20 relevees jambes · 3x60s planche<br>
+            Repos 60s entre series
+          </div>
+          <div class="duration-badge">55 min</div>
+        </div>
+        <div class="day-card active-day">
+          <div class="day-name">SAMEDI</div><div class="day-type cardio">FOOTING</div>
+          <div class="day-details">
+            Sortie tranquille<br>
+            <strong>30 min footing en endurance fondamentale</strong>
+            FC 130-145 bpm<br>
+            Pas de performance, juste rouler
+          </div>
+          <div class="duration-badge">35 min</div>
+        </div>
+        <div class="day-card rest-day">
+          <div class="day-name">DIMANCHE</div><div class="day-type rest">RECUP</div>
+          <div class="day-details">Repos total<br>Sommeil 8h minimum</div>
+        </div>
+      </div>
+      <div class="week-note"><strong>Note S1 :</strong> Avec ta base pompes/abdos/gainage, les volumes de S1 sont volontairement eleves — ton systeme musculaire peut le tenir. Ce qui va faire mal : le souffle et les courbatures des jambes (halteres vs poids du corps pur). Mesure ta FC de repos lundi matin : c'est ta reference de depart. Note-la.</div>
+    </div>
+  </div>
+
+  <!-- S2 -->
+  <div class="week-block" id="w2">
+    <button class="week-toggle" onclick="toggleWeek('w2')">
+      <span class="week-num p1">02</span>
+      <div class="week-meta">
+        <div class="week-title">Montee en tempo</div>
+        <div class="week-subtitle">FOOTING PLUS LONG · INTRO SURCHARGE PROGRESSIVE</div>
+      </div>
+      <div class="week-dots">
+        <div class="day-dot sport"></div><div class="day-dot sport"></div><div class="day-dot rest"></div>
+        <div class="day-dot sport"></div><div class="day-dot rest"></div><div class="day-dot sport"></div><div class="day-dot rest"></div>
+      </div>
+      <div class="chevron"><svg width="10" height="6" viewBox="0 0 10 6" fill="none"><path d="M1 1L5 5L9 1" stroke="#6b6b7e" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+    </button>
+    <div class="week-content">
+      <div class="days-grid">
+        <div class="day-card active-day">
+          <div class="day-name">LUNDI</div><div class="day-type cardio">FOOTING</div>
+          <div class="day-details">
+            Endurance + legere acceleration<br>
+            <strong>35 min : 25 min continu + 4x1min accelere / 2min trot</strong>
+            FC base 140-150 bpm · pics 160 bpm<br>
+            +10 min vs S1
+          </div>
+          <div class="duration-badge">40 min</div>
+        </div>
+        <div class="day-card active-day">
+          <div class="day-name">MARDI</div><div class="day-type force">FORCE HAUT</div>
+          <div class="day-details">
+            Tempo lent en descendant<br>
+            <strong>4x10 Tractions (tempo 3-1-1) · 4x15 Pompes (pieds sureleves) · 4x12 Rowing haltere · 4x12 Dev. epaules</strong>
+            4x15 Curl · 4x15 Triceps<br>
+            Gainage 3x60s · Repos 60s
+          </div>
+          <div class="duration-badge">58 min</div>
+        </div>
+        <div class="day-card rest-day">
+          <div class="day-name">MERCREDI</div><div class="day-type rest">REPOS</div>
+          <div class="day-details">Repos actif<br>Mobilite articulaire 15 min</div>
+        </div>
+        <div class="day-card active-day">
+          <div class="day-name">JEUDI</div><div class="day-type force">FORCE BAS + CORE</div>
+          <div class="day-details">
+            Surcharge progressive<br>
+            <strong>4x15 Squats halteres (charge tenue en goblet) · 4x12 Fentes sautees · 4x12 Soulevee haltere · 4x15 Hip thrust</strong>
+            Abdos : 3x25 crunch · 3x20 relevees jambes · 3x60s planche · 3x15 Russian twist haltere<br>
+          </div>
+          <div class="duration-badge">58 min</div>
+        </div>
+        <div class="day-card rest-day">
+          <div class="day-name">VENDREDI</div><div class="day-type rest">REPOS</div>
+          <div class="day-details">Repos ou marche 25 min<br>Etirements bas du dos</div>
+        </div>
+        <div class="day-card active-day">
+          <div class="day-name">SAMEDI</div><div class="day-type cardio">FOOTING LONG</div>
+          <div class="day-details">
+            Premiere vraie sortie longue<br>
+            <strong>40 min footing en endurance fondamentale continue</strong>
+            FC 135-150 bpm strict<br>
+            Si tu dois marcher : pas de probleme
+          </div>
+          <div class="duration-badge">45 min</div>
+        </div>
+        <div class="day-card rest-day">
+          <div class="day-name">DIMANCHE</div><div class="day-type rest">RECUP</div>
+          <div class="day-details">Repos total<br>8h de sommeil</div>
+        </div>
+      </div>
+      <div class="week-note"><strong>Note S2 :</strong> Introduire le "tempo lent" en descente (3 secondes pour descendre, 1 pause, 1 pour remonter) sur les tractions et pompes. Ca double l'efficacite musculaire sans changer le poids. Le footing du lundi avec les petites accelerations commence a construire le VO2max — cle pour les -15 bpm.</div>
+    </div>
+  </div>
+
+  <!-- S3 -->
+  <div class="week-block" id="w3">
+    <button class="week-toggle" onclick="toggleWeek('w3')">
+      <span class="week-num p1">03</span>
+      <div class="week-meta">
+        <div class="week-title">Premiere intensite reelle</div>
+        <div class="week-subtitle">FRACTIONNE VRAI · CIRCUIT HALTERES · 5 SEANCES</div>
+      </div>
+      <div class="week-dots">
+        <div class="day-dot sport intense"></div><div class="day-dot sport"></div><div class="day-dot rest"></div>
+        <div class="day-dot sport"></div><div class="day-dot rest"></div><div class="day-dot sport"></div><div class="day-dot sport"></div>
+      </div>
+      <div class="chevron"><svg width="10" height="6" viewBox="0 0 10 6" fill="none"><path d="M1 1L5 5L9 1" stroke="#6b6b7e" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+    </button>
+    <div class="week-content">
+      <div class="days-grid">
+        <div class="day-card active-day intense">
+          <div class="day-name">LUNDI</div><div class="day-type hiit">FRACTIONNE</div>
+          <div class="day-details">
+            Interval running<br>
+            <strong>10 min echauffement trot · 8x(45s sprint fort / 90s trot) · 5 min retour calme</strong>
+            FC sprint : 85-90% soit 167-177 bpm<br>
+            C'est la seance cle pour baisser la FC repos
+          </div>
+          <div class="duration-badge">35 min</div>
+        </div>
+        <div class="day-card active-day">
+          <div class="day-name">MARDI</div><div class="day-type force">FORCE HAUT</div>
+          <div class="day-details">
+            Supersets (sans repos entre A et B)<br>
+            <strong>A: 4x10 Tractions / 4x15 Pompes prise large — B: 4x12 Rowing haltere / 4x12 Dev. epaules</strong>
+            C: 4x15 Curl / 4x15 Triceps extension<br>
+            Repos 60s entre supersets · Gainage 4x60s
+          </div>
+          <div class="duration-badge">55 min</div>
+        </div>
+        <div class="day-card rest-day">
+          <div class="day-name">MERCREDI</div><div class="day-type rest">REPOS</div>
+          <div class="day-details">Repos obligatoire<br>Etirements profonds 20 min</div>
+        </div>
+        <div class="day-card active-day">
+          <div class="day-name">JEUDI</div><div class="day-type force">FORCE BAS + CORE</div>
+          <div class="day-details">
+            Supersets jambes<br>
+            <strong>A: 4x15 Squat halteres / 4x12 Fentes sautees — B: 4x12 Soulevee halteres / 4x15 Hip thrust</strong>
+            Abdos : 4x25 crunch · 4x20 rel. jambes · 4x60s planche · 4x15 Russian twist · 3x10 Gainage lateral<br>
+          </div>
+          <div class="duration-badge">58 min</div>
+        </div>
+        <div class="day-card rest-day">
+          <div class="day-name">VENDREDI</div><div class="day-type rest">REPOS</div>
+          <div class="day-details">Repos actif<br>Marche 25 min max</div>
+        </div>
+        <div class="day-card active-day">
+          <div class="day-name">SAMEDI</div><div class="day-type cardio">FOOTING LONG</div>
+          <div class="day-details">
+            Sortie endurance<br>
+            <strong>45 min footing continu en zone aerobique</strong>
+            FC strict 135-152 bpm<br>
+            Rythme "je peux parler"
+          </div>
+          <div class="duration-badge">50 min</div>
+        </div>
+        <div class="day-card active-day">
+          <div class="day-name">DIMANCHE</div><div class="day-type mix">MOBILITE</div>
+          <div class="day-details">
+            Recuperation active<br>
+            <strong>Yoga / etirements 25 min + foam roller</strong>
+            Optionnel si fatigue intense<br>
+            Marche legere acceptable
+          </div>
+          <div class="duration-badge">25 min</div>
+        </div>
+      </div>
+      <div class="week-note"><strong>Note S3 :</strong> La seance de fractionne lundi est la plus importante de la phase 1 pour l'objectif -15 bpm. Le fractionne force le coeur a travailler en pics intenses, ce qui l'oblige a s'adapter et a baisser sa frequence de repos. Ne la saute pas. Si le souffle bloque a cause du vapotage, reduire a 6 repetitions au lieu de 8.</div>
+    </div>
+  </div>
+
+  <!-- S4 -->
+  <div class="week-block" id="w4">
+    <button class="week-toggle" onclick="toggleWeek('w4')">
+      <span class="week-num p1">04</span>
+      <div class="week-meta">
+        <div class="week-title">Decharge — consolidation</div>
+        <div class="week-subtitle">VOLUMES REDUITS · RECUPERATION · MESURE FC</div>
+      </div>
+      <div class="week-dots">
+        <div class="day-dot sport"></div><div class="day-dot rest"></div><div class="day-dot sport"></div>
+        <div class="day-dot rest"></div><div class="day-dot sport"></div><div class="day-dot rest"></div><div class="day-dot rest"></div>
+      </div>
+      <div class="chevron"><svg width="10" height="6" viewBox="0 0 10 6" fill="none"><path d="M1 1L5 5L9 1" stroke="#6b6b7e" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+    </button>
+    <div class="week-content">
+      <div class="days-grid">
+        <div class="day-card active-day">
+          <div class="day-name">LUNDI</div><div class="day-type cardio">FOOTING DOUX</div>
+          <div class="day-details">
+            Zone 1 strict<br>
+            <strong>30 min footing tres lent</strong>
+            FC sous 140 bpm — ralentir si besoin<br>
+            Pas de fractionne cette semaine
+          </div>
+          <div class="duration-badge">35 min</div>
+        </div>
+        <div class="day-card rest-day">
+          <div class="day-name">MARDI</div><div class="day-type rest">REPOS</div>
+          <div class="day-details">Repos total<br>Sommeil prioritaire</div>
+        </div>
+        <div class="day-card active-day">
+          <div class="day-name">MERCREDI</div><div class="day-type force">FORCE LEGERE</div>
+          <div class="day-details">
+            60% des volumes habituels<br>
+            <strong>3x10 Tractions · 3x15 Pompes · 3x12 Rowing haltere · 3x12 Dev. epaules</strong>
+            3x15 Squat halteres · 3x12 Fentes<br>
+            Abdos : 3x20 · 3x45s planche · Repos 90s
+          </div>
+          <div class="duration-badge">45 min</div>
+        </div>
+        <div class="day-card rest-day">
+          <div class="day-name">JEUDI</div><div class="day-type rest">REPOS</div>
+          <div class="day-details">Marche 20 min<br>Etirements</div>
+        </div>
+        <div class="day-card active-day">
+          <div class="day-name">VENDREDI</div><div class="day-type cardio">FOOTING DOUX</div>
+          <div class="day-details">
+            Deuxieme sortie legere<br>
+            <strong>30 min footing tres cool</strong>
+            FC 130-140 bpm<br>
+            Observer si le souffle est meilleur qu'en S1
+          </div>
+          <div class="duration-badge">35 min</div>
+        </div>
+        <div class="day-card rest-day">
+          <div class="day-name">SAMEDI</div><div class="day-type rest">REPOS</div>
+          <div class="day-details">Repos ou sortie nature<br>Pas d'effort</div>
+        </div>
+        <div class="day-card rest-day">
+          <div class="day-name">DIMANCHE</div><div class="day-type rest">BILAN S1-S4</div>
+          <div class="day-details">Mesurer FC repos au reveil<br>Comparer avec S1 — noter la baisse</div>
+        </div>
+      </div>
+      <div class="week-note"><strong>Note S4 — Decharge + mesure :</strong> Le dimanche, mesure ta FC de repos au reveil (60s allonge, a jeun). Si elle a baisse de 3 a 6 bpm vs S1 : tu es dans les temps. La phase 2 va accelerer cette baisse. Viser zero alcool cette semaine pour optimiser la recuperation cardiaque.</div>
+    </div>
+  </div>
+
+  <!-- PHASE 2 -->
+  <div class="phase-header">
+    <div class="phase-number p2">02</div>
+    <div class="phase-info">
+      <h2 class="p2">PHASE PERFORMANCE — Semaines 5 a 8</h2>
+      <p>Le moteur est relance. On pousse maintenant : fractionne plus long, supersets enchaenes, sorties footing plus longues et plus dures. C'est dans cette phase que les -15 bpm se jouent vraiment — et que la force avec halteres atteint ses limites hautes.</p>
+    </div>
+  </div>
+
+  <!-- S5 -->
+  <div class="week-block" id="w5">
+    <button class="week-toggle" onclick="toggleWeek('w5')">
+      <span class="week-num p2">05</span>
+      <div class="week-meta">
+        <div class="week-title">Retour en force</div>
+        <div class="week-subtitle">HIIT VRAI · FORCE MAXIMALE HALTERES · 5 SEANCES</div>
+      </div>
+      <div class="week-dots">
+        <div class="day-dot sport intense"></div><div class="day-dot sport"></div><div class="day-dot rest"></div>
+        <div class="day-dot sport intense"></div><div class="day-dot sport"></div><div class="day-dot sport"></div><div class="day-dot rest"></div>
+      </div>
+      <div class="chevron"><svg width="10" height="6" viewBox="0 0 10 6" fill="none"><path d="M1 1L5 5L9 1" stroke="#6b6b7e" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+    </button>
+    <div class="week-content">
+      <div class="days-grid">
+        <div class="day-card active-day intense">
+          <div class="day-name">LUNDI</div><div class="day-type hiit">HIIT FOOTING</div>
+          <div class="day-details">
+            Fractionne court intensif<br>
+            <strong>10 min echauffement · 10x(30s sprint max / 60s trot) · 5 min retour calme</strong>
+            FC sprint : 90-95% soit 177-187 bpm<br>
+            La seance la plus cardiaque du plan
+          </div>
+          <div class="duration-badge">35 min</div>
+        </div>
+        <div class="day-card active-day">
+          <div class="day-name">MARDI</div><div class="day-type force">FORCE HAUT MAX</div>
+          <div class="day-details">
+            Supersets avec tempo lent<br>
+            <strong>5x8 Tractions lestees (haltere entre pieds) · 5x20 Pompes · 4x12 Rowing haltere lourd · 4x12 Dev. epaules</strong>
+            4x15 Curl · 4x15 Triceps<br>
+            Gainage 4x60s · Repos 45s entre supersets
+          </div>
+          <div class="duration-badge">58 min</div>
+        </div>
+        <div class="day-card rest-day">
+          <div class="day-name">MERCREDI</div><div class="day-type rest">REPOS</div>
+          <div class="day-details">Repos obligatoire<br>Foam roller · Etirements</div>
+        </div>
+        <div class="day-card active-day intense">
+          <div class="day-name">JEUDI</div><div class="day-type hiit">CIRCUIT CORPS</div>
+          <div class="day-details">
+            AMRAP 5 rounds<br>
+            <strong>10 Tractions · 20 Pompes · 20 Squats halteres · 15 Fentes sautees · 30s Gainage</strong>
+            Repos 90s entre rounds<br>
+            Chronometre — noter le temps total
+          </div>
+          <div class="duration-badge">40 min</div>
+        </div>
+        <div class="day-card active-day">
+          <div class="day-name">VENDREDI</div><div class="day-type force">FORCE BAS + CORE</div>
+          <div class="day-details">
+            Volume eleve jambes<br>
+            <strong>5x15 Squat halteres · 4x12 Fentes sautees · 4x12 Soulevee halteres · 4x15 Hip thrust</strong>
+            Abdos : 4x25 crunch · 4x20 rel. jambes · 4x60s planche · 3x12 Gainage lateral<br>
+          </div>
+          <div class="duration-badge">58 min</div>
+        </div>
+        <div class="day-card active-day">
+          <div class="day-name">SAMEDI</div><div class="day-type cardio">FOOTING LONG</div>
+          <div class="day-details">
+            Sortie aerobique longue<br>
+            <strong>50 min footing en endurance fondamentale</strong>
+            FC 135-155 bpm strict<br>
+            Cle pour baisser la FC de repos
+          </div>
+          <div class="duration-badge">55 min</div>
+        </div>
+        <div class="day-card rest-day">
+          <div class="day-name">DIMANCHE</div><div class="day-type rest">RECUP</div>
+          <div class="day-details">Repos total<br>Nourrir les muscles</div>
+        </div>
+      </div>
+      <div class="week-note"><strong>Note S5 :</strong> Les tractions lestees (coincer le haltere entre les pieds ou croises) : c'est le meilleur moyen de progresser en force sans barre ni salle. Si pas encore possible, faire des tractions normales en tempo tres lent (5 secondes en descente). Le circuit jeudi est intentionnellement cardiovasculaire — il double comme seance de cardio ET de force.</div>
+    </div>
+  </div>
+
+  <!-- S6 -->
+  <div class="week-block" id="w6">
+    <button class="week-toggle" onclick="toggleWeek('w6')">
+      <span class="week-num p2">06</span>
+      <div class="week-meta">
+        <div class="week-title">Pic d'intensite</div>
+        <div class="week-subtitle">SEMAINE LA PLUS DURE · FRACTIONNE LONG · FORCE COMPLETE</div>
+      </div>
+      <div class="week-dots">
+        <div class="day-dot sport intense"></div><div class="day-dot sport"></div><div class="day-dot rest"></div>
+        <div class="day-dot sport intense"></div><div class="day-dot sport"></div><div class="day-dot sport"></div><div class="day-dot rest"></div>
+      </div>
+      <div class="chevron"><svg width="10" height="6" viewBox="0 0 10 6" fill="none"><path d="M1 1L5 5L9 1" stroke="#6b6b7e" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+    </button>
+    <div class="week-content">
+      <div class="days-grid">
+        <div class="day-card active-day intense">
+          <div class="day-name">LUNDI</div><div class="day-type hiit">FRACTIONNE LONG</div>
+          <div class="day-details">
+            Intervalles longs — seuil lactique<br>
+            <strong>10 min echauffement · 5x(3min effort soutenu FC 170-177 / 2min trot) · 5 min retour</strong>
+            Tres difficile mais tenable sur 3 min<br>
+            Le meilleur stimulus pour -15 bpm
+          </div>
+          <div class="duration-badge">40 min</div>
+        </div>
+        <div class="day-card active-day">
+          <div class="day-name">MARDI</div><div class="day-type force">FORCE HAUT</div>
+          <div class="day-details">
+            Intensite maximale<br>
+            <strong>5x8 Tractions lestees · 5x20 Pompes (pieds sureleves) · 4x12 Rowing haltere · 4x10 Dev. Arnold haltere</strong>
+            4x15 Curl · 4x15 Triceps · Gainage 4x60s<br>
+            Supersets : repos 45s
+          </div>
+          <div class="duration-badge">58 min</div>
+        </div>
+        <div class="day-card rest-day">
+          <div class="day-name">MERCREDI</div><div class="day-type rest">REPOS</div>
+          <div class="day-details">Repos absolu<br>Nutrition + sommeil</div>
+        </div>
+        <div class="day-card active-day intense">
+          <div class="day-name">JEUDI</div><div class="day-type hiit">CIRCUIT MAX</div>
+          <div class="day-details">
+            6 rounds chrono<br>
+            <strong>8 Tractions · 20 Pompes explosives · 15 Squat jump · 12 Fentes halteres · 30s Gainage lateral</strong>
+            Repos 2 min entre rounds<br>
+            Chrono total : reference pour S8
+          </div>
+          <div class="duration-badge">45 min</div>
+        </div>
+        <div class="day-card active-day">
+          <div class="day-name">VENDREDI</div><div class="day-type force">FORCE BAS + CORE</div>
+          <div class="day-details">
+            Volume max jambes<br>
+            <strong>5x15 Squat halteres · 4x15 Fentes sautees · 4x12 Soulevee halteres · 4x20 Hip thrust</strong>
+            Abdos : 4x25 · 4x20 rel. jambes · 4x60s planche · 4x15 Russian twist · 3x12 Gainage lateral<br>
+          </div>
+          <div class="duration-badge">60 min</div>
+        </div>
+        <div class="day-card active-day">
+          <div class="day-name">SAMEDI</div><div class="day-type cardio">FOOTING TEMPO</div>
+          <div class="day-details">
+            Course avec blocs tempo<br>
+            <strong>10 min echauffement + 2x15 min tempo (FC 162-170) + 5 min retour</strong>
+            Tres exigeant mais fondateur<br>
+            Test reel de ta progression pulmonaire
+          </div>
+          <div class="duration-badge">50 min</div>
+        </div>
+        <div class="day-card rest-day">
+          <div class="day-name">DIMANCHE</div><div class="day-type rest">RECUP</div>
+          <div class="day-details">Repos total<br>Etirements si voulu</div>
+        </div>
+      </div>
+      <div class="week-note"><strong>Note S6 :</strong> Semaine la plus dure du plan — 5 seances dont 2 tres intenses. Le footing samedi avec 2 blocs tempo est une seance pro. Si les jambes sont trop lourdes, reduire a 1 bloc de 15 min. Reduire l'alcool a zero cette semaine : c'est la semaine ou le coeur fait les plus grands bonds d'adaptation.</div>
+    </div>
+  </div>
+
+  <!-- S7 -->
+  <div class="week-block" id="w7">
+    <button class="week-toggle" onclick="toggleWeek('w7')">
+      <span class="week-num p2">07</span>
+      <div class="week-meta">
+        <div class="week-title">Affinage et consolidation</div>
+        <div class="week-subtitle">MAINTIEN INTENSITE · QUALITE > QUANTITE · PREPARER S8</div>
+      </div>
+      <div class="week-dots">
+        <div class="day-dot sport"></div><div class="day-dot sport intense"></div><div class="day-dot rest"></div>
+        <div class="day-dot sport"></div><div class="day-dot sport intense"></div><div class="day-dot sport"></div><div class="day-dot rest"></div>
+      </div>
+      <div class="chevron"><svg width="10" height="6" viewBox="0 0 10 6" fill="none"><path d="M1 1L5 5L9 1" stroke="#6b6b7e" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+    </button>
+    <div class="week-content">
+      <div class="days-grid">
+        <div class="day-card active-day">
+          <div class="day-name">LUNDI</div><div class="day-type force">FORCE HAUT</div>
+          <div class="day-details">
+            Qualite pure — chaque rep compte<br>
+            <strong>5x8 Tractions lestees (tempo lent) · 5x20 Pompes · 4x12 Rowing · 4x10 Dev. epaules</strong>
+            4x15 Curl · 4x15 Triceps · Gainage 4x60s<br>
+            Repos 60s — concentration maximale
+          </div>
+          <div class="duration-badge">55 min</div>
+        </div>
+        <div class="day-card active-day intense">
+          <div class="day-name">MARDI</div><div class="day-type hiit">FRACTIONNE</div>
+          <div class="day-details">
+            Sprint pyramide<br>
+            <strong>Echauffement 8 min · Puis : 30-45-60-60-45-30 secondes de sprint</strong>
+            Recup = duree x1.5 entre chaque<br>
+            3 passages du circuit complet
+          </div>
+          <div class="duration-badge">35 min</div>
+        </div>
+        <div class="day-card rest-day">
+          <div class="day-name">MERCREDI</div><div class="day-type rest">REPOS</div>
+          <div class="day-details">Repos actif<br>Marche 20 min</div>
+        </div>
+        <div class="day-card active-day">
+          <div class="day-name">JEUDI</div><div class="day-type force">FORCE BAS + CORE</div>
+          <div class="day-details">
+            Supersets complets<br>
+            <strong>5x15 Squat halteres · 4x12 Fentes sautees · 4x12 Soulevee halteres · 4x20 Hip thrust</strong>
+            Abdos full : 4x25 crunch · 4x20 rel. jambes · 4x60s planche · 4x15 Russian twist<br>
+          </div>
+          <div class="duration-badge">58 min</div>
+        </div>
+        <div class="day-card active-day intense">
+          <div class="day-name">VENDREDI</div><div class="day-type hiit">CIRCUIT FORCE</div>
+          <div class="day-details">
+            Benchmark pre-S8<br>
+            <strong>For time : 5 rounds de 10 Tractions · 20 Pompes · 30 Squats halteres</strong>
+            Chronometre : comparer avec S8<br>
+            Note le temps — c'est le test de reference
+          </div>
+          <div class="duration-badge">~30 min</div>
+        </div>
+        <div class="day-card active-day">
+          <div class="day-name">SAMEDI</div><div class="day-type cardio">FOOTING LONG</div>
+          <div class="day-details">
+            Grande sortie<br>
+            <strong>55-60 min footing continu en endurance fondamentale</strong>
+            FC 135-152 bpm<br>
+            La plus longue sortie du plan
+          </div>
+          <div class="duration-badge">60 min</div>
+        </div>
+        <div class="day-card rest-day">
+          <div class="day-name">DIMANCHE</div><div class="day-type rest">RECUP</div>
+          <div class="day-details">Repos total<br>Preparer S8 mentalement</div>
+        </div>
+      </div>
+      <div class="week-note"><strong>Note S7 :</strong> Vendredi est un "benchmark" — fais le meme circuit que tu referas en S8 pour mesurer ta progression reelle. Le footing samedi de 55-60 min en zone fondamentale est le meilleur investissement pour les -15 bpm : le coeur qui tourne longtemps a basse intensite est force de s'economiser, ce qui abaisse la FC repos.</div>
+    </div>
+  </div>
+
+  <!-- S8 -->
+  <div class="week-block" id="w8">
+    <button class="week-toggle" onclick="toggleWeek('w8')">
+      <span class="week-num p2">08</span>
+      <div class="week-meta">
+        <div class="week-title">Semaine test — Bilan final</div>
+        <div class="week-subtitle">TESTS · MESURE FC · PHOTOS · PLAN MOIS 3</div>
+      </div>
+      <div class="week-dots">
+        <div class="day-dot sport intense"></div><div class="day-dot sport"></div><div class="day-dot rest"></div>
+        <div class="day-dot sport intense"></div><div class="day-dot rest"></div><div class="day-dot sport"></div><div class="day-dot rest"></div>
+      </div>
+      <div class="chevron"><svg width="10" height="6" viewBox="0 0 10 6" fill="none"><path d="M1 1L5 5L9 1" stroke="#6b6b7e" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+    </button>
+    <div class="week-content">
+      <div class="days-grid">
+        <div class="day-card active-day intense">
+          <div class="day-name">LUNDI</div><div class="day-type hiit">TEST COOPER</div>
+          <div class="day-details">
+            Test Cooper 12 min<br>
+            <strong>Courir le plus loin possible en 12 minutes — noter la distance</strong>
+            Plus de 2400m = excellent pour 23 ans<br>
+            Echauffement 8 min avant
+          </div>
+          <div class="duration-badge">30 min</div>
+        </div>
+        <div class="day-card active-day">
+          <div class="day-name">MARDI</div><div class="day-type force">TEST FORCE</div>
+          <div class="day-details">
+            Mesure des gains<br>
+            <strong>Max Tractions (1 serie) · Max Pompes (1 serie) · Max Pompes pieds sureleves · 5x Squat halteres</strong>
+            Comparer avec les chiffres de S1<br>
+            Photographier si voulu
+          </div>
+          <div class="duration-badge">45 min</div>
+        </div>
+        <div class="day-card rest-day">
+          <div class="day-name">MERCREDI</div><div class="day-type rest">REPOS</div>
+          <div class="day-details">Repos actif<br>Bilan des 8 semaines</div>
+        </div>
+        <div class="day-card active-day intense">
+          <div class="day-name">JEUDI</div><div class="day-type hiit">TEST CIRCUIT</div>
+          <div class="day-details">
+            Benchmark final<br>
+            <strong>For time : 5 rounds de 10 Tractions · 20 Pompes · 30 Squats halteres</strong>
+            Comparer avec le chrono de S7<br>
+            C'est ton vrai indicateur de forme
+          </div>
+          <div class="duration-badge">~25 min</div>
+        </div>
+        <div class="day-card rest-day">
+          <div class="day-name">VENDREDI</div><div class="day-type rest">REPOS</div>
+          <div class="day-details">Repos merite<br>Recuperation finale</div>
+        </div>
+        <div class="day-card active-day">
+          <div class="day-name">SAMEDI</div><div class="day-type cardio">SORTIE PLAISIR</div>
+          <div class="day-details">
+            Libre et fun<br>
+            <strong>Run plaisir, sport collectif, ou footing decontracte 30 min</strong>
+            Pas de performance<br>
+            Juste le plaisir du corps qui bouge bien
+          </div>
+          <div class="duration-badge">Libre</div>
+        </div>
+        <div class="day-card rest-day">
+          <div class="day-name">DIMANCHE</div><div class="day-type rest">FC FINALE</div>
+          <div class="day-details">Mesurer FC repos au reveil<br>Comparer avec J1. Tu as merite ca.</div>
+        </div>
+      </div>
+      <div class="week-note"><strong>Note S8 — Ce que tu devrais avoir :</strong> FC de repos en baisse de 10 a 15 bpm vs S1 (avec discipline cardio + reduction alcool les semaines cles) · Tractions et pompes en nette progression · Souffle significativement meilleur a l'effort · Silhouette plus seche et definie. La limite sur le souffle reste le vapotage — chaque semaine sans vapoter = gain supplementaire direct.</div>
+    </div>
+  </div>
+
+  <!-- NUTRITION -->
+  <div class="section-title">NUTRITION</div>
+  <div class="section-sub">Lignes directrices — adapte a 73 kg, objectif force + cardio</div>
+  <div class="nutrition-grid">
+    <div class="nutri-card">
+      <h3>Proteines <span>PRIORITE 1</span></h3>
+      <ul class="nutri-list">
+        <li>Objectif : 2 a 2,2g/kg soit 146-160g/jour</li>
+        <li>Oeufs, poulet, dinde, thon, saumon</li>
+        <li>Fromage blanc 0% ou Skyr (25g proteine/pot)</li>
+        <li>Legumineuses : lentilles, pois chiches</li>
+        <li>Whey optionnel post-seance intense</li>
+      </ul>
+    </div>
+    <div class="nutri-card">
+      <h3>Glucides <span>CARBURANT</span></h3>
+      <ul class="nutri-list">
+        <li>Riz, patate douce, avoine, pates completes</li>
+        <li>Plus avant les seances HIIT et cardio long</li>
+        <li>Reduire les jours de repos</li>
+        <li>Sucres rapides : uniquement dans les 30 min post-HIIT</li>
+      </ul>
+    </div>
+    <div class="nutri-card">
+      <h3>Alcool — impact FC <span>CRITIQUE</span></h3>
+      <ul class="nutri-list">
+        <li>L'alcool eleve structurellement la FC de repos</li>
+        <li>Meme 2-3 pintes perturbent la recuperation cardiaque 48h</li>
+        <li>Semaines 4, 6, 8 : viser zero ou 1 pinte max</li>
+        <li>Si pinte le soir : noter si FC repos est plus haute le lendemain</li>
+        <li>C'est le levier direct sur l'objectif -15 bpm</li>
+      </ul>
+    </div>
+    <div class="nutri-card">
+      <h3>Timing <span>OPTIMISATION</span></h3>
+      <ul class="nutri-list">
+        <li>Manger 1h30 avant la seance (eviter lourd)</li>
+        <li>Dans les 45 min post-seance : proteine + glucide rapide</li>
+        <li>Ne pas courir a jeun les jours HIIT et fractionne</li>
+        <li>Eau : 3L/jour minimum · +500ml par heure de sport</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- TRACKER -->
+  <div class="section-title" style="margin-top:64px;">SUIVI DES SEMAINES</div>
+  <div class="section-sub">Clique pour marquer une semaine comme completee</div>
+  <div class="week-check-grid" id="checkGrid"></div>
+  <div class="completion-display" id="completionDisplay">0/8<span>semaines completees</span></div>
+
+  <!-- GAINS -->
+  <div class="section-title" style="margin-top:64px;">GAINS ATTENDUS A J+60</div>
+  <div class="section-sub">Projections personnalisees — base musculaire solide, 23 ans, bilan OK</div>
+  <div class="progress-bars" id="progressBars">
+    <div class="prog-row">
+      <div class="prog-label">FC REPOS (objectif -15)</div>
+      <div class="prog-bar-bg"><div class="prog-bar-fill green" data-target="85"></div></div>
+      <div class="prog-val">-15 bpm</div>
+    </div>
+    <div class="prog-row">
+      <div class="prog-label">TRACTIONS (reps max)</div>
+      <div class="prog-bar-bg"><div class="prog-bar-fill" data-target="70"></div></div>
+      <div class="prog-val">+40%</div>
+    </div>
+    <div class="prog-row">
+      <div class="prog-label">ENDURANCE FOOTING</div>
+      <div class="prog-bar-bg"><div class="prog-bar-fill green" data-target="78"></div></div>
+      <div class="prog-val">+50%</div>
+    </div>
+    <div class="prog-row">
+      <div class="prog-label">VO2MAX ESTIME</div>
+      <div class="prog-bar-bg"><div class="prog-bar-fill green" data-target="60"></div></div>
+      <div class="prog-val">+20%</div>
+    </div>
+    <div class="prog-row">
+      <div class="prog-label">FORCE HALTERES</div>
+      <div class="prog-bar-bg"><div class="prog-bar-fill" data-target="55"></div></div>
+      <div class="prog-val">+20%</div>
+    </div>
+    <div class="prog-row">
+      <div class="prog-label">SOUFFLE (plafonne vapote)</div>
+      <div class="prog-bar-bg"><div class="prog-bar-fill orange" data-target="38"></div></div>
+      <div class="prog-val">+15%</div>
+    </div>
+  </div>
+
+  <footer style="margin-top:64px;padding-top:24px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;">
+    <p style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted);">Plan 8 semaines · 73 kg · 23 ans · Halteres 10kg + Barre de traction · Footing</p>
+    <div style="font-size:11px;color:var(--accent2);background:rgba(255,92,53,0.08);border:1px solid rgba(255,92,53,0.2);border-radius:6px;padding:6px 14px;">Alcool regulier = principal frein aux -15 bpm · Vapotage = plafond VO2max</div>
+  </footer>
+
+</div>
+
+<script>
+  function toggleWeek(id) {
+    var block = document.getElementById(id);
+    var isOpen = block.classList.contains('open');
+    document.querySelectorAll('.week-block').forEach(function(b) { b.classList.remove('open'); });
+    if (!isOpen) block.classList.add('open');
+  }
+
+  function animateBars() {
+    document.querySelectorAll('.prog-bar-fill').forEach(function(bar) {
+      var target = bar.getAttribute('data-target');
+      setTimeout(function() { bar.style.width = target + '%'; }, 300);
+    });
+  }
+
+  var barsSection = document.getElementById('progressBars');
+  var observer = new IntersectionObserver(function(entries) {
+    entries.forEach(function(e) { if (e.isIntersecting) { animateBars(); observer.disconnect(); } });
+  }, { threshold: 0.3 });
+  if (barsSection) observer.observe(barsSection);
+
+  var weekLabels = ['S1','S2','S3','S4','S5','S6','S7','S8'];
+  var weekTitles = ['Reveil','Tempo','Intensite','Decharge','Retour','Pic','Affinage','BILAN'];
+  var completed = [];
+  try { completed = JSON.parse(localStorage.getItem('weeks_done_v2') || '[]'); } catch(e) { completed = []; }
+
+  function renderChecks() {
+    var grid = document.getElementById('checkGrid');
+    grid.innerHTML = '';
+    weekLabels.forEach(function(label, i) {
+      var btn = document.createElement('div');
+      btn.className = 'week-check-btn' + (completed.indexOf(i) !== -1 ? ' done' : '');
+      btn.innerHTML = '<span class="wc-num">' + label + '</span>' + weekTitles[i];
+      btn.onclick = function() {
+        var idx = completed.indexOf(i);
+        if (idx !== -1) { completed.splice(idx, 1); } else { completed.push(i); }
+        try { localStorage.setItem('weeks_done_v2', JSON.stringify(completed)); } catch(e) {}
+        renderChecks();
+      };
+      grid.appendChild(btn);
+    });
+    document.getElementById('completionDisplay').innerHTML = completed.length + '/8<span>semaines completees</span>';
+  }
+
+  renderChecks();
+  document.getElementById('w1').classList.add('open');
+</script>
+</body>
+</html>
